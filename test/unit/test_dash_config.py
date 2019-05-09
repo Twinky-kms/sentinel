@@ -12,9 +12,9 @@ from dash_config import DashConfig
 @pytest.fixture
 def dash_conf(**kwargs):
     defaults = {
-        'rpcuser': 'dashrpc',
-        'rpcpassword': 'EwJeV3fZTyTVozdECF627BkBMnNDwQaVLakG3A4wXYyk',
-        'rpcport': 29241,
+        'rpcuser': 'user',
+        'rpcpassword': 'pass',
+        'rpcport': 3344,
     }
 
     # merge kwargs into defaults
@@ -39,27 +39,27 @@ def test_get_rpc_creds():
 
     for key in ('user', 'password', 'port'):
         assert key in creds
-    assert creds.get('user') == 'dashrpc'
-    assert creds.get('password') == 'EwJeV3fZTyTVozdECF627BkBMnNDwQaVLakG3A4wXYyk'
-    assert creds.get('port') == 29241
+    assert creds.get('user') == 'user'
+    assert creds.get('password') == 'pass'
+    assert creds.get('port') == 3344
 
-    dash_config = dash_conf(rpcpassword='s00pers33kr1t', rpcport=8000)
+    dash_config = dash_conf(rpcpassword='pass', rpcport=3344)
     creds = DashConfig.get_rpc_creds(dash_config, 'testnet')
 
     for key in ('user', 'password', 'port'):
         assert key in creds
-    assert creds.get('user') == 'dashrpc'
-    assert creds.get('password') == 's00pers33kr1t'
-    assert creds.get('port') == 8000
+    assert creds.get('user') == 'user'
+    assert creds.get('password') == 'pass'
+    assert creds.get('port') == 3344
 
     no_port_specified = re.sub('\nrpcport=.*?\n', '\n', dash_conf(), re.M)
     creds = DashConfig.get_rpc_creds(no_port_specified, 'testnet')
 
     for key in ('user', 'password', 'port'):
         assert key in creds
-    assert creds.get('user') == 'dashrpc'
-    assert creds.get('password') == 'EwJeV3fZTyTVozdECF627BkBMnNDwQaVLakG3A4wXYyk'
-    assert creds.get('port') == 19998
+    assert creds.get('user') == 'user'
+    assert creds.get('password') == 'pass'
+    assert creds.get('port') == 3344
 
 
 def test_slurp_config_file():
